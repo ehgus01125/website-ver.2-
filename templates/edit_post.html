@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시물 수정</title>
+    <style>
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        textarea {
+            height: 200px;
+            resize: vertical;
+        }
+        .submit-button {
+            margin-top: 20px;
+            text-align: right;
+        }
+        .submit-button button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: gray;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            var errorMessage = "{{ error_message }}";
+            if (errorMessage) {
+                alert(errorMessage);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>게시물 수정</h1>
+        <form action="{{url_for('edit_post', Post_id=post.Post_id)}}" method="POST">
+            <label for="title">제목</label>
+            <input type="text" id="title" name="title" value="{{post.title}}" required>
+            <label for="content">내용</label>
+            <textarea id="content" name="content" required>{{ post.content }}</textarea>
+            <div class="submit-button">
+                <button type="submit">수정하기</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>게시판</title>
+<style>
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+.header {
+    margin-bottom: 20px;
+}
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.search-form {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+.search-form select,
+.search-form input[type="text"],
+.search-form button {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #fff;
+}
+.search-form button {
+    background-color: gray;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+th {
+    background-color: #f9f9f9;
+}
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+.button-group button {
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: gray;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+/* 새로 추가된 스타일 */
+a {
+    color: inherit; /* 부모 요소의 색상을 상속 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+a:hover {
+    text-decoration: underline; /* 마우스 오버시 밑줄 표시 (선택사항) */
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="header-left">
+            <h1>게시판</h1>
+            <p>유저 : {{ current_user.username }}</p>
+        </div>
+        <form class="search-form" action="{{ url_for('search') }}" method="GET">
+            <select name="search_type">
+                <option value="all" {% if search_type == 'all' %}selected{% endif %}>전체</option>
+                <option value="title" {% if search_type == 'title' %}selected{% endif %}>제목</option>
+                <option value="title" {% if search_type == 'content' %}selected{% endif %}>내용</option>
+                <option value="writeman" {% if search_type == 'writeman' %}selected{% endif %}>작성자</option>
+            </select>
+            <input type="text" name="search_db" placeholder="검색어 입력" value="{{ search_db }}">
+            <button type="submit">검색</button>
+        </form>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th class="narrow-column">번호</th>
+                <th class="title-column">제목</th>
+                <th class="author-column">작성자</th>
+                <th class="date-column">작성일</th>
+                <th class="narrow-column">조회수</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href="{{ url_for('read_post', Post_id=post['Post_id']) }}">{{ post['title'] }}</a></td>
+                <td>{{ post['username'] }}</td>
+                <td>{{ post['time'] }}</td>
+                <td>{{ post['view'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="button-group">
+        <button onclick="window.location.href='{{ url_for('create_post') }}'">게시물 작성</button>
+        <button onclick="window.location.href='{{ url_for('logout') }}'">로그아웃</button>
+    </div>
+</div>
+</body>
+</html>

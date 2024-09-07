@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{post['title']}}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .meta {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .content {
+            margin-bottom: 30px;
+        }
+        a:hover {
+            color: black;
+        }
+        .back-link, .edit-link, .delete-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: gray;
+            color: white;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .delete-button {
+            background-color: red;
+        }
+        .delete-button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{post['title']}}</h1>
+        <div class="meta">
+            <p>작성자: {{post['username']}}</p>
+            <p>작성일: {{post['time']}}</p>
+            <p>조회수: {{post['view']}}</p>
+        </div>
+        <div class="content">
+            {{post['content']}}
+        </div>
+        <a href="{{url_for('post')}}" class="back-link">뒤로가기</a>
+        {% if current_user == post['user_id']  %}
+            <a href="{{url_for('edit_post', Post_id=post['Post_id'])}}" class="edit-link">수정하기</a>
+            {% endif %}
+            {% if current_user == post['user_id'] or king %}
+            <form action="{{ url_for('delete_post', Post_id=post['Post_id']) }}" method="POST" style="display: inline;" onsubmit="return confirm("삭제 버튼을 누르셨습니다. 삭제하실건가요?');">
+                <button type="submit" class="delete-button">삭제하기</button>
+            </form>
+        {% endif %}
+    </div>
+</body>
+</html>
