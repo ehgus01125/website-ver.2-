@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import pymysql
 import sys
-
 import pymysql.cursors
 
 app = Flask(__name__)
@@ -114,7 +113,6 @@ def post():
 
 @app.route("/search",methods=['GET', 'POST'])
 def search():
-    search_len = 0
     search_type = request.args.get('search_type','title')
     search_db= request.args.get('search_db','').strip()
     if not search_db:
@@ -134,12 +132,11 @@ def search():
         elif search_type == 'writeman':
             cursor.execute("SELECT Post_id, Post.title, User.username, Post.time, Post.view FROM Post Join User ON Post.user_id = User.id WHERE User.username LIKE %s ORDER BY Post.time DESC", (f'%{search_db}%',))
         posts = cursor.fetchall()
-        search_len=len(posts)
     except Exception as e:
         return "error", 500
     finally:
         db.close()
-        return render_template("post.html", posts=posts, search_db = search_db, search_type = search_type, search_len=search_len, current_user=current_user)
+        return render_template("post.html", posts=posts, search_db = search_db, search_type = search_type, current_user=current_user)
     
 @app.route("/create_post",methods=['GET', 'POST'])
 def create_post():
@@ -234,13 +231,6 @@ def delete_post(Post_id):
         print(e)
     finally:
         db.close()
-
-
-    #삭제 만들기
-            # 관리자 페이지 만들어서 삭제하기
-            # sql인젝션, crsf 필터링 만들기
-            #  
-
 
 @app.route("/logout")
 def logout():
