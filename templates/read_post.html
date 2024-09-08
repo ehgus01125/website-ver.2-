@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{post['title']}}</title>
+    <title>{{ post['title'] }}</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -61,21 +61,21 @@
 </head>
 <body>
     <div class="container">
-        <h1>{{post['title']}}</h1>
+        <h1>{{ post['title'] }}</h1>
         <div class="meta">
-            <p>작성자: {{post['username']}}</p>
-            <p>작성일: {{post['time']}}</p>
-            <p>조회수: {{post['view']}}</p>
+            <p>작성자: {{ post['username'] }}</p>
+            <p>작성일: {{ post['time'] }}</p>
+            <p>조회수: {{ post['view'] }}</p>
         </div>
         <div class="content">
-            {{post['content']}}
+            {{ post['content'] }}
         </div>
-        <a href="{{url_for('post')}}" class="back-link">뒤로가기</a>
-        {% if current_user == post['user_id']  %}
-            <a href="{{url_for('edit_post', Post_id=post['Post_id'])}}" class="edit-link">수정하기</a>
-            {% endif %}
-            {% if current_user == post['user_id'] or king %}
-            <form action="{{ url_for('delete_post', Post_id=post['Post_id']) }}" method="POST" style="display: inline;" onsubmit="return confirm("삭제 버튼을 누르셨습니다. 삭제하실건가요?');">
+        <a href="{{ url_for('post') }}" class="back-link">뒤로가기</a>
+        {% if current_user == post['user_id'] %}
+            <a href="{{ url_for('edit_post', Post_id=post['Post_id']) }}" class="edit-link">수정하기</a>
+        {% endif %}
+        {% if current_user == post['user_id'] or king %}
+            <form action="{{ url_for('delete_post', Post_id=post['Post_id']) }}" method="POST" style="display: inline;" onsubmit="return confirm('삭제 버튼을 누르셨습니다. 삭제하실건가요?');">
                 <button type="submit" class="delete-button">삭제하기</button>
             </form>
         {% endif %}
