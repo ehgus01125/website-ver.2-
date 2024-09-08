@@ -18,6 +18,11 @@
 
 <img width="1429" alt="image" src="https://github.com/user-attachments/assets/1f7ff324-7c3c-4c11-9242-6ab07328a02a">
 
+**/delete**
+
+
+<img width="870" alt="image" src="https://github.com/user-attachments/assets/4ae4f512-e6fe-4364-83f0-ba05bccfa714">
+
 
 
 
